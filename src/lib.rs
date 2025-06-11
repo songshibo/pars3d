@@ -2,7 +2,7 @@
 #![feature(array_windows)]
 #![feature(array_try_map)]
 #![feature(iter_array_chunks)]
-#![feature(cfg_match)]
+#![feature(cfg_select)]
 #![feature(cmp_minmax)]
 #![feature(binary_heap_into_iter_sorted)]
 #![feature(let_chains)]
