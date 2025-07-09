@@ -160,11 +160,13 @@ pub fn quadrangulate(
             new_faces.push(FaceKind::Quad(q));
             merged.push((a, Some(b)));
 
-            while let Some(&(na, nal, nq, nab)) = merge_heap.peek()
-                && (na.0 - ang.0).abs() < 1e-3
-            {
-                merge_heap.pop();
-                snd_heap.push((nal, na, nq, nab));
+            while let Some(&(na, nal, nq, nab)) = merge_heap.peek() {
+                if (na.0 - ang.0).abs() < 1e-3 {
+                    merge_heap.pop();
+                    snd_heap.push((nal, na, nq, nab));
+                } else {
+                    break;
+                }
             }
         }
     }

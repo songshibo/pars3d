@@ -909,11 +909,13 @@ pub fn write_token_set(
     let mut i = 1;
     let mut prop_count = 0;
     let mut prop_len = 0;
-    while i + prop_count < tokens.len()
-        && let Token::Data(ref d) = &tokens[i + prop_count]
-    {
-        prop_len += write_data!(std::io::sink(), d);
-        prop_count += 1;
+    while i + prop_count < tokens.len() {
+        if let Token::Data(ref d) = &tokens[i + prop_count] {
+            prop_len += write_data!(std::io::sink(), d);
+            prop_count += 1;
+        } else {
+            break;
+        }
     }
     const OFFSET_PLACEHOLDER: u64 = u64::MAX;
     let pos_to_write = (written + offset) as u64;

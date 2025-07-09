@@ -15,11 +15,13 @@ pub fn rel_path_btwn(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result
         Some(abs_src.as_path())
     };
     let mut num_parents = 0;
-    while let Some(c) = curr
-        && !abs_dst.starts_with(c)
-    {
-        num_parents += 1;
-        curr = c.parent();
+    while let Some(c) = curr {
+        if !abs_dst.starts_with(c) {
+            num_parents += 1;
+            curr = c.parent();
+        } else {
+            break;
+        }
     }
 
     let prefix = match curr {

@@ -219,20 +219,20 @@ pub fn save_obj(
         // TODO need to write materials here
         let mut curr_mat_idx = None;
         for (fi, f) in m.f.iter().enumerate() {
-            match curr_mat_idx {
-                None => {
-                    if let Some((mat_range, mi)) = m.face_mat_idx.first()
-                        && mat_range.contains(&fi)
-                    {
-                        let name = s.materials.get(*mi).map(|n| n.name.as_str()).unwrap_or("");
-                        if name.is_empty() {
-                            writeln!(geom_dst, "usemtl mat_{mi}")?;
-                        } else {
-                            writeln!(geom_dst, "usemtl {name}")?;
+                            match curr_mat_idx {
+                    None => {
+                        if let Some((mat_range, mi)) = m.face_mat_idx.first() {
+                            if mat_range.contains(&fi) {
+                                let name = s.materials.get(*mi).map(|n| n.name.as_str()).unwrap_or("");
+                                if name.is_empty() {
+                                    writeln!(geom_dst, "usemtl mat_{mi}")?;
+                                } else {
+                                    writeln!(geom_dst, "usemtl {name}")?;
+                                }
+                                curr_mat_idx = Some(0);
+                            }
                         }
-                        curr_mat_idx = Some(0);
                     }
-                }
                 Some(v) => {
                     let (r, _) = &m.face_mat_idx[v];
                     if !r.contains(&fi) {

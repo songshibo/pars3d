@@ -15,7 +15,7 @@ pub fn fuse_vertices(vertices: &[Vec3], dist: F) -> Vec<usize> {
 
     let to_hash = |v: Vec3| {
         if dist == 0. || inv_dist.is_nan() {
-            return v.map(|v| unsafe { std::mem::transmute::<U, I>(v.to_bits()) });
+            return v.map(|v| unsafe { u32::cast_signed(v.to_bits()) });
         }
 
         v.map(|v| f64::from(v * inv_dist) as I)
